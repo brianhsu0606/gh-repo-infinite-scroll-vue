@@ -65,33 +65,47 @@ onMounted(async () => {
 </script>
 
 <template>
-  <!-- Header -->
-  <header class="sticky top-0 z-10 bg-gray-200 p-4 mb-4 shadow">
-    <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
+  <div class="sticky top-0 z-10">
+    <!-- Header -->
+    <header class="bg-gray-300 p-4">
+      <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
+    </header>
 
-    <!-- 輸入 使用者 -->
-    <div class="flex items-center gap-4 mb-4">
-      <p class="text-xl">GitHub 使用者</p>
-      <input
-        type="text"
-        v-model="inputUser"
-        class="border p-2 rounded-lg w-48"
-        placeholder="請輸入 GitHub 使用者"
-      />
-      <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">輸入</button>
-    </div>
+    <!-- Section -->
+    <section class="flex justify-between items-center bg-gray-200 p-4 mb-4">
+      <!-- 目前使用者、目前 Repo 數量 -->
+      <div>
+        <p class="text-xl">
+          目前使用者：<span class="font-bold">{{ user }}</span>
+        </p>
+        <p class="text-xl">
+          目前取得的 Repo 數量: <span class="font-bold">{{ repoList.length }}</span> 筆
+        </p>
+      </div>
 
-    <p class="text-xl">目前使用者：{{ user }}</p>
-    <p class="text-xl">目前取得的 Repo 數量: {{ repoList.length }} 筆</p>
-  </header>
+      <!-- 輸入使用者 -->
+      <div class="flex items-center gap-4">
+        <p class="text-xl">GitHub 使用者</p>
+        <input
+          type="text"
+          v-model="inputUser"
+          class="border p-2 rounded-lg w-48"
+          placeholder="請輸入 GitHub 使用者"
+          @keyup.enter="submit"
+        />
+        <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">輸入</button>
+      </div>
+    </section>
+  </div>
 
   <!-- Repo 卡片 -->
   <div class="flex flex-col items-center" :class="{ 'opacity-30': isLoading }">
     <div
-      v-for="repo in repoList"
+      v-for="(repo, index) in repoList"
       :key="repo.id"
-      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-300 text-lg"
+      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-200 text-xl"
     >
+      <p>編號：{{ index + 1 }}</p>
       <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
       <p>Repo 描述：{{ repo.description }}</p>
       <p>
@@ -107,7 +121,7 @@ onMounted(async () => {
   <h2 v-if="isLoading" class="loading-text">載入中...</h2>
 
   <!-- Trigger -->
-  <div ref="loadTrigger" class="h-10"></div>
+  <div ref="loadTrigger" class="h-4"></div>
 </template>
 
 <style scoped lang="scss">
