@@ -10,15 +10,17 @@ interface Repo {
 }
 
 const repoList = ref<Repo[]>([])
-const user: string = 'vuejs'
+const user = ref<string>('vuejs')
 const page = ref<number>(1)
 const isLoading = ref<boolean>(false)
+
+const inputUser = ref<string>('')
 
 const fetchRepo = async () => {
   isLoading.value = true
   try {
     const res = await axios.get(
-      `https://api.github.com/users/${user}/repos?per_page=10&page=${page.value}`,
+      `https://api.github.com/users/${user.value}/repos?per_page=10&page=${page.value}`,
     )
     if (res.data.length > 0) {
       repoList.value.push(...res.data)
@@ -48,6 +50,14 @@ const observeTrigger = () => {
   observer.observe(loadTrigger.value)
 }
 
+const submit = () => {
+  if (inputUser.value.trim() === '') return
+  user.value = inputUser.value.trim()
+  repoList.value = []
+  page.value = 1
+  fetchRepo()
+}
+
 onMounted(async () => {
   await fetchRepo()
   observeTrigger()
@@ -58,6 +68,19 @@ onMounted(async () => {
   <!-- Header -->
   <header class="sticky top-0 z-10 bg-gray-200 p-4 mb-4 shadow">
     <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
+
+    <!-- 輸入 使用者 -->
+    <div class="flex items-center gap-4 mb-4">
+      <p class="text-xl">GitHub 使用者</p>
+      <input
+        type="text"
+        v-model="inputUser"
+        class="border p-2 rounded-lg w-48"
+        placeholder="請輸入 GitHub 使用者"
+      />
+      <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">輸入</button>
+    </div>
+
     <p class="text-xl">目前使用者：{{ user }}</p>
     <p class="text-xl">目前取得的 Repo 數量: {{ repoList.length }} 筆</p>
   </header>
