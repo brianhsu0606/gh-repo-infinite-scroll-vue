@@ -2,7 +2,14 @@
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
-const repoList = ref([])
+interface Repo {
+  id: number
+  name: string
+  description: string
+  html_url: string
+}
+
+const repoList = ref<Repo[]>([])
 
 const fetchRepo = async () => {
   try {
@@ -21,7 +28,11 @@ onMounted(() => {
 </script>
 
 <template>
-  <div>{{ repoList }}</div>
+  <div v-for="repo in repoList" :key="repo.id">
+    <h3>{{ repo.name }}</h3>
+    <p>{{ repo.description }}</p>
+    <p>{{ repo.html_url }}</p>
+  </div>
 </template>
 
 <style scoped lang="scss"></style>
