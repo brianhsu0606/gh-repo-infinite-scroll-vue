@@ -48,8 +48,8 @@ const observeTrigger = () => {
   observer.observe(loadTrigger.value)
 }
 
-onMounted(() => {
-  fetchRepo()
+onMounted(async () => {
+  await fetchRepo()
   observeTrigger()
 })
 </script>
