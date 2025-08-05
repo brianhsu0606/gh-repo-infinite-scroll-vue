@@ -13,8 +13,7 @@ const repoList = ref<Repo[]>([])
 const user = ref<string>('vuejs')
 const page = ref<number>(1)
 const isLoading = ref<boolean>(false)
-
-const inputUser = ref<string>('')
+const isEmpty = ref<boolean>(false)
 
 const fetchRepo = async () => {
   isLoading.value = true
@@ -27,6 +26,8 @@ const fetchRepo = async () => {
       page.value++
     } else {
       observer?.disconnect()
+      isEmpty.value = true
+      console.log(isEmpty.value)
     }
   } catch (error) {
     console.error('Error fetching repositories:', error)
@@ -49,6 +50,8 @@ const observeTrigger = () => {
   })
   observer.observe(loadTrigger.value)
 }
+
+const inputUser = ref<string>('')
 
 const submit = () => {
   if (inputUser.value.trim() === '') return
@@ -116,6 +119,9 @@ onMounted(async () => {
       </p>
     </div>
   </div>
+
+  <!-- Repo 取完時的提示 -->
+  <h2 v-if="isEmpty" class="text-2xl font-bold text-center">此使用者的 Repo 已全部讀取！</h2>
 
   <!-- Loading 提示文字 -->
   <h2 v-if="isLoading" class="loading-text">載入中...</h2>
