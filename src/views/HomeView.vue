@@ -67,11 +67,16 @@ onMounted(async () => {
     <div
       v-for="repo in repoList"
       :key="repo.id"
-      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-300"
+      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-300 text-lg"
     >
       <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
       <p>Repo 描述：{{ repo.description }}</p>
-      <p>Repo URL：{{ repo.html_url }}</p>
+      <p>
+        Repo URL：
+        <a :href="repo.html_url" class="text-blue-700 hover:text-red-600">
+          {{ repo.html_url }}
+        </a>
+      </p>
     </div>
   </div>
 
