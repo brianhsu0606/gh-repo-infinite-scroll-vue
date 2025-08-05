@@ -63,7 +63,7 @@ onMounted(async () => {
   </header>
 
   <!-- Repo 卡片 -->
-  <div class="flex flex-col items-center" :class="{ 'opacity-50': isLoading }">
+  <div class="flex flex-col items-center" :class="{ 'opacity-30': isLoading }">
     <div
       v-for="repo in repoList"
       :key="repo.id"
@@ -80,8 +80,21 @@ onMounted(async () => {
     </div>
   </div>
 
+  <!-- Loading 提示文字 -->
+  <h2 v-if="isLoading" class="loading-text">載入中...</h2>
+
   <!-- Trigger -->
-  <div ref="loadTrigger" class="h-10 text-center bg-gray-200">Trigger</div>
+  <div ref="loadTrigger" class="h-10"></div>
 </template>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.loading-text {
+  position: fixed;
+  z-index: 10;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: bold;
+}
+</style>
