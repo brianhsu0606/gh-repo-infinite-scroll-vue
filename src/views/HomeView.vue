@@ -28,10 +28,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <div v-for="repo in repoList" :key="repo.id">
-    <h3>{{ repo.name }}</h3>
-    <p>{{ repo.description }}</p>
-    <p>{{ repo.html_url }}</p>
+  <div
+    v-for="repo in repoList"
+    :key="repo.id"
+    class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-300"
+  >
+    <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
+    <p>Repo 描述：{{ repo.description }}</p>
+    <p>Repo URL：{{ repo.html_url }}</p>
   </div>
 </template>
 
