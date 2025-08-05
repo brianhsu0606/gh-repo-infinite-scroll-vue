@@ -58,12 +58,12 @@ onMounted(async () => {
   <!-- Header -->
   <header class="sticky top-0 z-10 bg-gray-200 p-4 mb-4 shadow">
     <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
-    <p class="text-xl">目標使用者：{{ user }}</p>
+    <p class="text-xl">目前使用者：{{ user }}</p>
     <p class="text-xl">目前取得的 Repo 數量: {{ repoList.length }} 筆</p>
   </header>
 
   <!-- Repo 卡片 -->
-  <div class="flex flex-col items-center">
+  <div class="flex flex-col items-center" :class="{ 'opacity-50': isLoading }">
     <div
       v-for="repo in repoList"
       :key="repo.id"
