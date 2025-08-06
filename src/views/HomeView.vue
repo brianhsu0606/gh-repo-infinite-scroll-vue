@@ -93,7 +93,7 @@ onMounted(async () => {
 
     <!-- Section -->
     <section
-      class="flex flex-col sm:flex-row justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-xl gap-4 sm:gap-0"
+      class="flex flex-col sm:flex-row justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-lg sm:text-xl gap-4 sm:gap-0"
     >
       <!-- 目前使用者、目前 Repo 數量 -->
       <div>
@@ -108,16 +108,21 @@ onMounted(async () => {
       <!-- 輸入使用者 -->
       <div class="flex flex-col sm:flex-row items-center gap-2">
         <p class="font-bold">GitHub 帳號搜尋</p>
-        <input
-          type="text"
-          v-model="inputUser"
-          class="px-4 py-2 rounded-lg w-46 text-lg"
-          placeholder="請輸入 GitHub 帳號"
-          @keyup.enter="submit"
-        />
-        <button @click="submit" class="bg-blue-400 rounded-lg px-4 py-2 text-lg hover:bg-blue-500">
-          確認
-        </button>
+        <div>
+          <input
+            type="text"
+            v-model="inputUser"
+            class="px-4 py-2 rounded-lg w-46 text-lg mr-2"
+            placeholder="請輸入 GitHub 帳號"
+            @keyup.enter="submit"
+          />
+          <button
+            @click="submit"
+            class="bg-blue-400 rounded-lg px-4 py-2 text-lg hover:bg-blue-500"
+          >
+            確認
+          </button>
+        </div>
       </div>
     </section>
   </div>
@@ -127,13 +132,22 @@ onMounted(async () => {
     <div
       v-for="(repo, index) in repoList"
       :key="repo.id"
-      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-100 text-xl"
+      class="border p-4 mb-4 rounded-xl shadow bg-blue-100 text-sm sm:text-xl w-[90%] max-w-6xl"
     >
-      <p>編號：{{ index + 1 }}</p>
-      <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
-      <p>Repo 描述：{{ repo.description }}</p>
       <p>
-        Repo 連結：
+        <span class="font-bold">編號：</span>
+        {{ index + 1 }}
+      </p>
+      <h3>
+        <span class="font-bold">Repo 名稱：</span>
+        {{ repo.name }}
+      </h3>
+      <p>
+        <span class="font-bold">Repo 描述：</span>
+        {{ repo.description }}
+      </p>
+      <p>
+        <span class="font-bold">Repo 連結：</span>
         <a :href="repo.html_url" class="text-blue-700 hover:text-red-600">
           {{ repo.html_url }}
         </a>
