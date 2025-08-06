@@ -92,7 +92,9 @@ onMounted(async () => {
     </header>
 
     <!-- Section -->
-    <section class="flex justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-xl">
+    <section
+      class="flex flex-col sm:flex-row justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-xl gap-4 sm:gap-0"
+    >
       <!-- 目前使用者、目前 Repo 數量 -->
       <div>
         <p>
@@ -104,7 +106,7 @@ onMounted(async () => {
       </div>
 
       <!-- 輸入使用者 -->
-      <div class="flex items-center gap-2">
+      <div class="flex flex-col sm:flex-row items-center gap-2">
         <p class="font-bold">GitHub 帳號搜尋</p>
         <input
           type="text"
