@@ -15,7 +15,7 @@ const page = ref<number>(1)
 const isLoading = ref<boolean>(false)
 const isEmpty = ref<boolean>(false)
 
-// 獲取 Repo 資料
+// 獲取指定使用者的 GitHub Repo 資料（每次 10 筆）
 const fetchRepo = async () => {
   isLoading.value = true
   try {
@@ -36,7 +36,7 @@ const fetchRepo = async () => {
   }
 }
 
-// 觸發載入更多 Repo 的元素
+// 使用 IntersectionObserver 觀察 trigger，進行無限滾動載入
 const loadTrigger = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
 
@@ -57,7 +57,7 @@ const observeTrigger = () => {
   observer.observe(loadTrigger.value)
 }
 
-// 搜尋使用者
+// 搜尋新的 GitHub 使用者，並重新載入其 Repo 資料
 const inputUser = ref<string>('')
 
 const submit = async () => {
@@ -85,12 +85,12 @@ onMounted(async () => {
 <template>
   <div class="sticky top-0 z-10">
     <!-- Header -->
-    <header class="bg-gray-300 p-4">
+    <header class="bg-blue-300 p-4">
       <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
     </header>
 
     <!-- Section -->
-    <section class="flex justify-between items-center bg-gray-200 px-8 py-6 mb-4">
+    <section class="flex justify-between items-center bg-blue-200 px-8 py-6 mb-4">
       <!-- 目前使用者、目前 Repo 數量 -->
       <div>
         <p class="text-xl">
@@ -103,15 +103,17 @@ onMounted(async () => {
 
       <!-- 輸入使用者 -->
       <div class="flex items-center gap-2">
-        <p class="text-xl font-bold">GitHub 帳號</p>
+        <p class="text-xl font-bold">GitHub 帳號搜尋</p>
         <input
           type="text"
           v-model="inputUser"
-          class="p-2 rounded-lg w-44"
+          class="px-4 py-2 rounded-lg w-46 text-lg"
           placeholder="請輸入 GitHub 帳號"
           @keyup.enter="submit"
         />
-        <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">確認</button>
+        <button @click="submit" class="bg-blue-400 rounded-lg px-4 py-2 text-lg hover:bg-blue-500">
+          確認
+        </button>
       </div>
     </section>
   </div>
@@ -121,7 +123,7 @@ onMounted(async () => {
     <div
       v-for="(repo, index) in repoList"
       :key="repo.id"
-      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-200 text-xl"
+      class="border p-4 mb-4 w-[70%] rounded-xl shadow bg-blue-100 text-xl"
     >
       <p>編號：{{ index + 1 }}</p>
       <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
