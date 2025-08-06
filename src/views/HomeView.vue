@@ -15,6 +15,7 @@ const page = ref<number>(1)
 const isLoading = ref<boolean>(false)
 const isEmpty = ref<boolean>(false)
 
+// 獲取 Repo 資料
 const fetchRepo = async () => {
   isLoading.value = true
   try {
@@ -27,7 +28,6 @@ const fetchRepo = async () => {
     } else {
       observer?.disconnect()
       isEmpty.value = true
-      console.log(isEmpty.value)
     }
   } catch (error) {
     console.error('Error fetching repositories:', error)
@@ -36,11 +36,17 @@ const fetchRepo = async () => {
   }
 }
 
+// 觸發載入更多 Repo 的元素
 const loadTrigger = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
 
 const observeTrigger = () => {
   if (!loadTrigger.value) return
+
+  if (observer) {
+    observer.disconnect()
+    observer = null
+  }
 
   observer = new IntersectionObserver((entries) => {
     const entry = entries[0]
@@ -51,14 +57,23 @@ const observeTrigger = () => {
   observer.observe(loadTrigger.value)
 }
 
+// 搜尋使用者
 const inputUser = ref<string>('')
 
-const submit = () => {
+const submit = async () => {
   if (inputUser.value.trim() === '') return
+
+  observer?.disconnect()
+  observer = null
+
   user.value = inputUser.value.trim()
   repoList.value = []
   page.value = 1
-  fetchRepo()
+  isEmpty.value = false
+  inputUser.value = ''
+
+  await fetchRepo()
+  observeTrigger()
 }
 
 onMounted(async () => {
@@ -75,11 +90,11 @@ onMounted(async () => {
     </header>
 
     <!-- Section -->
-    <section class="flex justify-between items-center bg-gray-200 p-4 mb-4">
+    <section class="flex justify-between items-center bg-gray-200 px-8 py-6 mb-4">
       <!-- 目前使用者、目前 Repo 數量 -->
       <div>
         <p class="text-xl">
-          目前使用者：<span class="font-bold">{{ user }}</span>
+          GitHub 帳號：<span class="font-bold">{{ user }}</span>
         </p>
         <p class="text-xl">
           目前取得的 Repo 數量: <span class="font-bold">{{ repoList.length }}</span> 筆
@@ -87,16 +102,16 @@ onMounted(async () => {
       </div>
 
       <!-- 輸入使用者 -->
-      <div class="flex items-center gap-4">
-        <p class="text-xl">GitHub 使用者</p>
+      <div class="flex items-center gap-2">
+        <p class="text-xl font-bold">GitHub 帳號</p>
         <input
           type="text"
           v-model="inputUser"
-          class="border p-2 rounded-lg w-48"
-          placeholder="請輸入 GitHub 使用者"
+          class="p-2 rounded-lg w-44"
+          placeholder="請輸入 GitHub 帳號"
           @keyup.enter="submit"
         />
-        <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">輸入</button>
+        <button @click="submit" class="bg-gray-400 rounded-lg p-2 hover:bg-gray-500">確認</button>
       </div>
     </section>
   </div>
@@ -112,7 +127,7 @@ onMounted(async () => {
       <h3 class="font-bold">Repo 名稱：{{ repo.name }}</h3>
       <p>Repo 描述：{{ repo.description }}</p>
       <p>
-        Repo URL：
+        Repo 連結：
         <a :href="repo.html_url" class="text-blue-700 hover:text-red-600">
           {{ repo.html_url }}
         </a>
@@ -121,7 +136,7 @@ onMounted(async () => {
   </div>
 
   <!-- Repo 取完時的提示 -->
-  <h2 v-if="isEmpty" class="text-2xl font-bold text-center">此使用者的 Repo 已全部讀取！</h2>
+  <h2 v-if="isEmpty" class="text-2xl font-bold text-center">此帳號的 Repo 已全部讀取！</h2>
 
   <!-- Loading 提示文字 -->
   <h2 v-if="isLoading" class="loading-text">載入中...</h2>
