@@ -87,16 +87,14 @@ onMounted(async () => {
 <template>
   <div class="sticky top-0 z-10">
     <!-- Header -->
-    <header class="bg-blue-300 p-4">
+    <header class="p-4 border-b border-gray-400 bg-blue-300">
       <h2 class="text-2xl font-bold text-center">獲取 GitHub Repository</h2>
     </header>
 
     <!-- Section -->
-    <section
-      class="flex flex-col sm:flex-row justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-lg sm:text-xl gap-4 sm:gap-0"
-    >
+    <section class="repo-section">
       <!-- 目前使用者、目前 Repo 數量 -->
-      <div>
+      <div class="text-xl">
         <p>
           GitHub 帳號：<span class="font-bold">{{ user }}</span>
         </p>
@@ -105,20 +103,20 @@ onMounted(async () => {
         </p>
       </div>
 
-      <!-- 輸入使用者 -->
-      <div class="flex flex-col sm:flex-row items-center gap-2">
+      <!-- 輸入框 -->
+      <div class="flex flex-col items-start gap-2 sm:flex-row sm:items-center w-full sm:w-auto">
         <p class="font-bold">GitHub 帳號搜尋</p>
-        <div>
+        <div class="flex items-center gap-2 w-full sm:w-auto">
           <input
             type="text"
             v-model="inputUser"
-            class="px-4 py-2 rounded-lg w-46 text-lg mr-2"
+            class="rounded-lg px-4 py-2 text-lg w-[70%]"
             placeholder="請輸入 GitHub 帳號"
             @keyup.enter="submit"
           />
           <button
             @click="submit"
-            class="bg-blue-400 rounded-lg px-4 py-2 text-lg hover:bg-blue-500"
+            class="rounded-lg px-4 py-2 text-lg bg-blue-400 hover:bg-blue-500 w-[30%]"
           >
             確認
           </button>
@@ -129,11 +127,7 @@ onMounted(async () => {
 
   <!-- Repo 卡片 -->
   <div class="flex flex-col items-center" :class="{ 'opacity-30': isLoading }">
-    <div
-      v-for="(repo, index) in repoList"
-      :key="repo.id"
-      class="border p-4 mb-4 rounded-xl shadow bg-blue-100 text-sm sm:text-xl w-[90%] max-w-6xl"
-    >
+    <div v-for="(repo, index) in repoList" :key="repo.id" class="repo-card">
       <p>
         <span class="font-bold">編號：</span>
         {{ index + 1 }}
@@ -166,6 +160,24 @@ onMounted(async () => {
 </template>
 
 <style scoped lang="scss">
+.repo-section {
+  @apply flex flex-col justify-between items-start gap-6 
+  sm:flex-row sm:items-center sm:gap-0 
+  px-8 py-4 mb-4
+  text-lg sm:text-xl
+  border-b border-gray-400 
+  bg-blue-200;
+}
+
+.repo-card {
+  @apply rounded-xl shadow-lg
+  p-4 mb-4
+  text-sm sm:text-xl
+  w-[90%] max-w-6xl
+  border border-gray-400
+  bg-blue-100;
+}
+
 .loading-text {
   position: fixed;
   z-index: 10;
