@@ -26,7 +26,7 @@ const fetchRepo = async () => {
       repoList.value.push(...res.data)
       page.value++
     } else {
-      observer?.disconnect()
+      resetObserver()
       isEmpty.value = true
     }
   } catch (error) {
@@ -36,6 +36,12 @@ const fetchRepo = async () => {
   }
 }
 
+// 重置 IntersectionObserver
+const resetObserver = () => {
+  observer?.disconnect()
+  observer = null
+}
+
 // 使用 IntersectionObserver 觀察 trigger，進行無限滾動載入
 const loadTrigger = ref<HTMLElement | null>(null)
 let observer: IntersectionObserver | null = null
@@ -43,10 +49,7 @@ let observer: IntersectionObserver | null = null
 const observeTrigger = () => {
   if (!loadTrigger.value) return
 
-  if (observer) {
-    observer.disconnect()
-    observer = null
-  }
+  resetObserver()
 
   observer = new IntersectionObserver((entries) => {
     const entry = entries[0]
@@ -63,8 +66,7 @@ const inputUser = ref<string>('')
 const submit = async () => {
   if (inputUser.value.trim() === '') return
 
-  observer?.disconnect()
-  observer = null
+  resetObserver()
 
   user.value = inputUser.value.trim()
   repoList.value = []
