@@ -88,24 +88,24 @@ onMounted(async () => {
   <div class="sticky top-0 z-10">
     <!-- Header -->
     <header class="bg-blue-300 p-4">
-      <h2 class="text-2xl font-bold text-center">獲取 GitHub Repo</h2>
+      <h2 class="text-2xl font-bold text-center">獲取 GitHub Repository</h2>
     </header>
 
     <!-- Section -->
-    <section class="flex justify-between items-center bg-blue-200 px-8 py-6 mb-4">
+    <section class="flex justify-between items-center bg-blue-200 px-8 py-6 mb-4 text-xl">
       <!-- 目前使用者、目前 Repo 數量 -->
       <div>
-        <p class="text-xl">
+        <p>
           GitHub 帳號：<span class="font-bold">{{ user }}</span>
         </p>
-        <p class="text-xl">
-          目前取得的 Repo 數量: <span class="font-bold">{{ repoList.length }}</span> 筆
+        <p>
+          已讀取 Repo 數量: <span class="font-bold">{{ repoList.length }}</span> 筆
         </p>
       </div>
 
       <!-- 輸入使用者 -->
       <div class="flex items-center gap-2">
-        <p class="text-xl font-bold">GitHub 帳號搜尋</p>
+        <p class="font-bold">GitHub 帳號搜尋</p>
         <input
           type="text"
           v-model="inputUser"
