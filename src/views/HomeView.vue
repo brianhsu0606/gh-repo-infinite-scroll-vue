@@ -110,7 +110,7 @@ onMounted(async () => {
           <input
             type="text"
             v-model="inputUser"
-            class="rounded-lg px-4 py-2 text-lg w-[70%]"
+            class="rounded-lg px-3 py-2 text-lg w-[70%]"
             placeholder="請輸入 GitHub 帳號"
             @keyup.enter="submit"
           />
